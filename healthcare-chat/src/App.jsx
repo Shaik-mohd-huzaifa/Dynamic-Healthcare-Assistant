@@ -758,6 +758,146 @@ const DischargeProgressGrid = ({ data }) => {
   );
 };
 
+const ReceptionistAppointmentsGrid = ({ data }) => {
+  const [showLoader, setShowLoader] = useState(true);
+  const [gridData, setGridData] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [notifStatus, setNotifStatus] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    setShowLoader(true);
+    setTimeout(() => {
+      setShowLoader(false);
+      setGridData(data.appointments);
+    }, 1000);
+  }, [data.appointments]);
+
+  useEffect(() => {
+    if (notifStatus) {
+      const timer = setTimeout(() => {
+        setNotifStatus(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [notifStatus]);
+
+  const handleRowClick = (event) => {
+    setSelectedAppointment(event.dataItem);
+    setShowDeleteModal(true);
+  };
+
+  const handleDelete = () => {
+    try {
+      setGridData(gridData.filter((apt) => apt.id !== selectedAppointment.id));
+      setNotifStatus(true);
+      setShowDeleteModal(false);
+    } catch (e) {
+      setError("Error deleting appointment");
+    }
+  };
+
+  return (
+    <div className="chat-message bot">
+      <div className="message-content prompt">
+        <div className="p-4 bg-gray-100">
+          <h2 className="text-xl font-bold mb-4">Upcoming Patient Appointments</h2>
+          
+          {error && (
+            <Notification
+              className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8"
+              closable={true}
+              type={{ style: "error", icon: true }}
+            >
+              {error}
+            </Notification>
+          )}
+          {notifStatus && (
+            <Notification closable={true} type={{ style: "success", icon: true }}>
+              Appointment deleted successfully!
+            </Notification>
+          )}
+
+          <div className="overflow-x-auto">
+            <Grid
+              style={{ height: "365px" }}
+              data={gridData}
+              dataItemKey="id"
+              onRowClick={handleRowClick}
+              showLoader={showLoader}
+              sortable={true}
+              filterable={true}
+              pageable={true}
+            >
+              <GridColumn field="patientName" title="Patient Name" width="200px" />
+              <GridColumn field="date" title="Date" width="150px" filter="date" format="{0:d}" />
+              <GridColumn field="time" title="Time" width="120px" />
+              <GridColumn field="type" title="Type" width="150px" />
+              <GridColumn field="doctor" title="Doctor" width="200px" />
+              <GridColumn field="status" title="Status" width="120px" />
+              <GridColumn field="notes" title="Notes" width="250px" />
+            </Grid>
+
+            {showDeleteModal && (
+              <Dialog title="Delete Appointment" onClose={() => setShowDeleteModal(false)}>
+                <p style={{ margin: "25px", textAlign: "center" }}>
+                  Are you sure you want to delete the appointment for {selectedAppointment?.patientName}?
+                </p>
+                <DialogActionsBar>
+                  <Button themeColor="error" onClick={handleDelete}>
+                    Delete
+                  </Button>
+                  <Button themeColor="base" onClick={() => setShowDeleteModal(false)}>
+                    Cancel
+                  </Button>
+                </DialogActionsBar>
+              </Dialog>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const QuickPrompts = ({ onSelectPrompt, selectedRole }) => {
+  const prompts = {
+    patient: [
+      "Schedule an appointment",
+      "View my medical records",
+      "Check my upcoming appointments"
+    ],
+    receptionist: [
+      "List out the upcoming patients appointments",
+      "Show waiting patients",
+      "View doctor schedules"
+    ],
+    doctor: [
+      "Show my upcoming appointments",
+      "View ICU patients",
+      "Check surgery progress"
+    ]
+  };
+
+  return (
+    <div className="quick-prompts">
+      <h3 className="text-lg font-semibold mb-3">Quick Prompts</h3>
+      <div className="prompts-grid">
+        {prompts[selectedRole.value].map((prompt, index) => (
+          <button
+            key={index}
+            className="prompt-button"
+            onClick={() => onSelectPrompt(prompt)}
+          >
+            {prompt}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 function App() {
   const [selectedRole, setSelectedRole] = useState(roles[0]);
   const [messages, setMessages] = useState([
@@ -771,6 +911,7 @@ function App() {
   const [chatHistory, setChatHistory] = useState([]);
   const [showClearDialog, setShowClearDialog] = useState(false);
   const messagesEndRef = useRef(null);
+  const [showQuickPrompts, setShowQuickPrompts] = useState(true);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -808,6 +949,8 @@ function App() {
         return <SurgeryProgressGrid data={componentData.data} />;
       case 'DischargeProgressGrid':
         return <DischargeProgressGrid data={componentData.data} />;
+      case 'ReceptionistAppointmentsGrid':
+        return <ReceptionistAppointmentsGrid data={componentData.data} />;
       default:
         return null;
     }
@@ -815,6 +958,7 @@ function App() {
 
   const handleSendMessage = async () => {
     if (inputMessage.trim()) {
+      setShowQuickPrompts(false);
       const userMessage = inputMessage.trim();
       setMessages(prev => [...prev, { type: 'user', content: userMessage }]);
       setInputMessage('');
@@ -877,6 +1021,7 @@ function App() {
     ]);
     setChatHistory([]);
     setCurrentWidget(null);
+    setShowQuickPrompts(true);
   };
 
   const handleClearChat = () => {
@@ -889,6 +1034,11 @@ function App() {
     setChatHistory([]);
     setCurrentWidget(null);
     setShowClearDialog(false);
+    setShowQuickPrompts(true);
+  };
+
+  const handlePromptSelect = (prompt) => {
+    setInputMessage(prompt);
   };
 
   return (
@@ -925,6 +1075,12 @@ function App() {
             </div>
           ))}
           {currentWidget}
+          {showQuickPrompts && messages.length === 1 && (
+            <QuickPrompts 
+              onSelectPrompt={handlePromptSelect} 
+              selectedRole={selectedRole}
+            />
+          )}
           <div ref={messagesEndRef} />
         </div>
         <div className="input-container">
