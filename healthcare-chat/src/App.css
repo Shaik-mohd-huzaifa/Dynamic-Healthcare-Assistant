@@ -1,0 +1,805 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f0f2f5;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  color: #333;
+}
+
+.role-selector {
+  width: 200px;
+}
+
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f5f5f5;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.chat-message {
+  margin-bottom: 20px;
+  max-width: 80%;
+}
+
+.chat-message.user {
+  margin-left: auto;
+}
+
+.chat-message.bot {
+  margin-right: auto;
+}
+
+.message-content {
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-message.user .message-content {
+  background: #007bff;
+  color: white;
+}
+
+.chat-message.bot .message-content {
+  background: white;
+  color: #333;
+}
+
+.input-container {
+  display: flex;
+  padding: 20px;
+  background: white;
+  border-top: 1px solid #ddd;
+}
+
+.message-input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #666;
+  font-weight: 500;
+}
+
+.appointments-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.appointment-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.appointment-item:last-child {
+  border-bottom: none;
+}
+
+.appointment-item span {
+  flex: 1;
+  text-align: left;
+  margin-right: 10px;
+}
+
+/* Kendo UI Customization */
+.k-card {
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.k-card-title {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.k-button {
+  margin-top: 10px;
+}
+
+.k-textbox,
+.k-dropdown,
+.k-datepicker {
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 10px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .role-selector {
+    width: 100%;
+  }
+
+  .chat-message {
+    max-width: 90%;
+  }
+}
+
+/* Scrollbar styling */
+.messages-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Grid Styles */
+.k-grid {
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.k-grid-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.k-grid-header th {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  padding: 12px 16px;
+}
+
+.k-grid-content td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.k-grid-content tr:hover {
+  background-color: #f8f9fa;
+}
+
+.k-grid-pager {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  padding: 8px 16px;
+}
+
+.k-pager-numbers .k-state-active {
+  background-color: #007bff;
+  color: white;
+}
+
+.k-pager-numbers .k-state-active:hover {
+  background-color: #0056b3;
+}
+
+.k-pager-numbers .k-link {
+  color: #007bff;
+}
+
+.k-pager-numbers .k-link:hover {
+  background-color: #e9ecef;
+}
+
+.k-pager-sizes .k-dropdown {
+  width: 80px;
+}
+
+/* Priority Colors */
+.priority-high {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.priority-medium {
+  color: #ffc107;
+  font-weight: 500;
+}
+
+.priority-low {
+  color: #28a745;
+}
+
+/* Status Colors */
+.status-critical {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.status-stable {
+  color: #28a745;
+}
+
+.status-waiting {
+  color: #ffc107;
+}
+
+/* Grid Container */
+.grid-container {
+  margin: 20px 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.grid-title {
+  padding: 16px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 1.2em;
+  color: #495057;
+  font-weight: 600;
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+  .k-grid {
+    font-size: 14px;
+  }
+
+  .k-grid-header th,
+  .k-grid-content td {
+    padding: 8px 12px;
+  }
+
+  .k-pager-numbers {
+    display: none;
+  }
+
+  .k-pager-sizes {
+    margin-left: 0;
+  }
+}
+
+/* Progress Bar Styles */
+.progress-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.time-left {
+  font-size: 0.9em;
+  color: #666;
+  font-weight: 500;
+}
+
+.surgery-progress {
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.discharge-progress {
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.k-progressbar {
+  background-color: #e9ecef;
+}
+
+.k-progressbar-status {
+  transition: width 0.3s ease;
+}
+
+.k-progressbar-status.k-progressbar-status-success {
+  background-color: #28a745;
+}
+
+.k-progressbar-status.k-progressbar-status-info {
+  background-color: #17a2b8;
+}
+
+/* Status Colors for Progress */
+.status-scheduled {
+  color: #ffc107;
+}
+
+.status-in-progress {
+  color: #17a2b8;
+}
+
+.status-completed {
+  color: #28a745;
+}
+
+.status-pending {
+  color: #6c757d;
+}
+
+/* Grid Progress Column */
+.k-grid .progress-cell {
+  min-width: 200px;
+}
+
+/* Responsive Progress Bars */
+@media (max-width: 768px) {
+  .progress-cell {
+    min-width: 150px;
+  }
+
+  .time-left {
+    font-size: 0.8em;
+  }
+}
+
+/* Notification Styles */
+.k-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  min-width: 300px;
+  max-width: 400px;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.k-notification-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.k-notification-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Dialog Styles */
+.k-dialog {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.k-dialog-title {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #333;
+  padding: 16px 24px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.k-dialog-content {
+  padding: 24px;
+}
+
+.k-dialog-actions {
+  padding: 16px 24px;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Grid Row Hover Effect */
+.k-grid tr:hover {
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+/* Grid Loading State */
+.k-grid-loading {
+  position: relative;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.k-grid-loading::after {
+  content: '';
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Grid Column Filters */
+.k-grid-header th.k-filtercell {
+  padding: 8px 16px;
+}
+
+.k-filtercell .k-textbox,
+.k-filtercell .k-dropdown,
+.k-filtercell .k-datepicker {
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* Grid Pager */
+.k-grid-pager {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.k-pager-numbers .k-state-active {
+  background-color: #007bff;
+  color: white;
+}
+
+.k-pager-numbers .k-state-active:hover {
+  background-color: #0056b3;
+}
+
+.k-pager-numbers .k-link {
+  color: #007bff;
+}
+
+.k-pager-numbers .k-link:hover {
+  background-color: #e9ecef;
+}
+
+.k-pager-sizes .k-dropdown {
+  width: 80px;
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+  .k-grid {
+    font-size: 14px;
+  }
+
+  .k-grid-header th,
+  .k-grid-content td {
+    padding: 8px 12px;
+  }
+
+  .k-pager-numbers {
+    display: none;
+  }
+
+  .k-pager-sizes {
+    margin-left: 0;
+  }
+
+  .k-notification {
+    min-width: 250px;
+    max-width: 300px;
+  }
+}
+
+/* Card Progress Bar Layout */
+.mt-4 { margin-top: 1rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.text-center { text-align: center; }
+.text-2xl { font-size: 1.5rem; }
+.font-bold { font-weight: 700; }
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+.gap-4 { gap: 1rem; }
+.justify-center { justify-content: center; }
+.mt-2 { margin-top: 0.5rem; }
+
+/* Card Progress Bar Container */
+.k-card {
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.k-card:hover {
+  transform: translateY(-5px);
+}
+
+.k-card-body {
+  padding: 1.5rem;
+}
+
+.k-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.k-card p {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+/* Progress Bar in Cards */
+.k-progressbar {
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.k-progressbar-status {
+  transition: width 0.3s ease;
+}
+
+.k-progressbar-status.k-progressbar-status-success {
+  background-color: #28a745;
+}
+
+.k-progressbar-status.k-progressbar-status-info {
+  background-color: #17a2b8;
+}
+
+.k-progressbar-status.k-progressbar-status-error {
+  background-color: #dc3545;
+}
+
+/* Card Types */
+.k-card[type="info"] {
+  border-left: 4px solid #17a2b8;
+}
+
+.k-card[type="success"] {
+  border-left: 4px solid #28a745;
+}
+
+.k-card[type="error"] {
+  border-left: 4px solid #dc3545;
+}
+
+/* Value Display */
+.k-card strong {
+  color: #333;
+  font-weight: 600;
+}
+
+/* Responsive Card Layout */
+@media (max-width: 768px) {
+  .flex-wrap {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .k-card {
+    width: 100% !important;
+    max-width: 300px;
+  }
+
+  .text-2xl {
+    font-size: 1.25rem;
+  }
+}
+
+/* Enhanced Progress Bar Styles */
+.progress-container {
+  position: relative;
+  width: 100%;
+  margin: 1rem 0;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 2px;
+}
+
+.custom-progress {
+  height: 20px !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  background-color: #e9ecef !important;
+}
+
+.custom-progress .k-progressbar-status {
+  height: 100% !important;
+  transition: width 0.3s ease !important;
+}
+
+.custom-progress .k-progressbar-status.k-progressbar-status-success {
+  background-color: #28a745 !important;
+}
+
+.custom-progress .k-progressbar-status.k-progressbar-status-info {
+  background-color: #17a2b8 !important;
+}
+
+.custom-progress .k-progressbar-status.k-progressbar-status-error {
+  background-color: #dc3545 !important;
+}
+
+.progress-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Grid Progress Cell */
+.progress-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.time-left {
+  font-size: 0.9em;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Card Progress Bar Container */
+.k-card {
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.k-card:hover {
+  transform: translateY(-5px);
+}
+
+.k-card-body {
+  padding: 1.5rem;
+}
+
+.k-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.k-card p {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+/* Card Types */
+.k-card[type="info"] {
+  border-left: 4px solid #17a2b8;
+}
+
+.k-card[type="success"] {
+  border-left: 4px solid #28a745;
+}
+
+.k-card[type="error"] {
+  border-left: 4px solid #dc3545;
+}
+
+/* Responsive Progress Bars */
+@media (max-width: 768px) {
+  .custom-progress {
+    height: 16px !important;
+  }
+
+  .progress-value {
+    font-size: 0.9em;
+  }
+}
+
+/* Remove all embed-related styles */
+.embed-container,
+.embedded-image,
+.embedded-link {
+  display: none;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.clear-chat-btn {
+  margin-right: 1rem;
+}
