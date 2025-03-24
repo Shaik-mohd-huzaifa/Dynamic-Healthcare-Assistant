@@ -217,43 +217,132 @@ export const getKendoComponents = {
 
 // Function to determine which component to show based on the message content
 export const determineComponent = (message, role) => {
-  const messageLower = message.toLowerCase();
-  
-  switch (role) {
-    case 'patient':
-      if (messageLower.includes('appointment') || messageLower.includes('schedule')) {
-        return getKendoComponents.getAppointmentSchedule(1);
-      } else if (messageLower.includes('information') || messageLower.includes('profile')) {
-        return getKendoComponents.getPatientInfoForm(1);
-      }
-      break;
-      
-    case 'doctor':
-      if (messageLower.includes('surgery') || messageLower.includes('operation')) {
-        return getKendoComponents.getSurgeryProgressGrid();
-      } else if (messageLower.includes('schedule') || messageLower.includes('appointments')) {
-        return getKendoComponents.getDoctorAppointmentsGrid(1);
-      } else if (messageLower.includes('records') || messageLower.includes('patient')) {
-        return getKendoComponents.getPatientRecords(1);
-      }
-      break;
-      
-    case 'receptionist':
-      if (messageLower.includes('discharge') || messageLower.includes('release')) {
-        return getKendoComponents.getDischargeProgressGrid();
-      } else if (messageLower.includes('icu') || messageLower.includes('critical')) {
-        return getKendoComponents.getICUPatientsGrid();
-      } else if (messageLower.includes('waiting') || messageLower.includes('queue')) {
-        return getKendoComponents.getWaitingPatientsGrid();
-      } else if (messageLower.includes('doctor') || messageLower.includes('staff')) {
-        return getKendoComponents.getDoctorsListGrid();
-      } else if (messageLower.includes('appointment') || messageLower.includes('schedule')) {
-        return getKendoComponents.getAppointmentManagement(1);
-      } else if (messageLower.includes('bill') || messageLower.includes('payment')) {
-        return getKendoComponents.getBillingForm(1);
-      }
-      break;
+  const lowerMessage = message.toLowerCase();
+
+  // Doctor role components
+  if (role === 'doctor') {
+    if (lowerMessage.includes('upcoming appointments')) {
+      return {
+        type: 'DoctorAppointmentsGrid',
+        data: {
+          doctorName: 'Dr. Smith',
+          appointments: [
+            { id: 1, patientName: 'John Doe', date: new Date(), time: '10:00 AM', type: 'Check-up', status: 'Scheduled' },
+            { id: 2, patientName: 'Jane Smith', date: new Date(), time: '2:30 PM', type: 'Follow-up', status: 'Scheduled' }
+          ]
+        }
+      };
+    }
+    if (lowerMessage.includes('icu patients')) {
+      return {
+        type: 'ICUPatientsGrid',
+        data: {
+          patients: [
+            { id: 1, name: 'John Doe', age: 45, condition: 'Critical', room: 'ICU-101', doctor: 'Dr. Smith', admissionDate: new Date() },
+            { id: 2, name: 'Jane Smith', age: 32, condition: 'Stable', room: 'ICU-102', doctor: 'Dr. Smith', admissionDate: new Date() }
+          ]
+        }
+      };
+    }
+    if (lowerMessage.includes('surgery progress')) {
+      return {
+        type: 'SurgeryProgressGrid',
+        data: {
+          surgeries: [
+            { id: 1, patientName: 'John Doe', doctor: 'Dr. Smith', type: 'Cardiac', duration: '4 hours', status: 'In Progress', startTime: new Date() },
+            { id: 2, patientName: 'Jane Smith', doctor: 'Dr. Smith', type: 'Orthopedic', duration: '3 hours', status: 'Scheduled', startTime: new Date() }
+          ]
+        }
+      };
+    }
+    if (lowerMessage.includes('discharge progress')) {
+      return {
+        type: 'DischargeProgressGrid',
+        data: {
+          discharges: [
+            { id: 1, patientName: 'John Doe', doctor: 'Dr. Smith', reason: 'Recovery Complete', status: 'Pending', dischargeTime: new Date() },
+            { id: 2, patientName: 'Jane Smith', doctor: 'Dr. Smith', reason: 'Treatment Complete', status: 'In Progress', dischargeTime: new Date() }
+          ]
+        }
+      };
+    }
+    if (lowerMessage.includes('write a prescription') || lowerMessage.includes('want to write a prescription')) {
+      return {
+        type: 'Prescription'
+      };
+    }
   }
-  
+
+  // Receptionist role components
+  if (role === 'receptionist') {
+    if (lowerMessage.includes('upcoming patients appointments') || lowerMessage.includes('list out the upcoming patients appointments')) {
+      return {
+        type: 'ReceptionistAppointmentsGrid',
+        data: {
+          appointments: [
+            { id: 1, patientName: 'John Doe', date: new Date(), time: '10:00 AM', type: 'Check-up', doctor: 'Dr. Smith', status: 'Scheduled', notes: 'Regular check-up' },
+            { id: 2, patientName: 'Jane Smith', date: new Date(), time: '2:30 PM', type: 'Follow-up', doctor: 'Dr. Johnson', status: 'Scheduled', notes: 'Post-surgery follow-up' }
+          ]
+        }
+      };
+    }
+    if (lowerMessage.includes('waiting patients')) {
+      return {
+        type: 'WaitingPatientsGrid',
+        data: {
+          patients: [
+            { name: 'John Doe', waitTime: '15 mins', priority: 'High', doctor: 'Dr. Smith', status: 'Waiting' },
+            { name: 'Jane Smith', waitTime: '30 mins', priority: 'Medium', doctor: 'Dr. Johnson', status: 'Waiting' }
+          ]
+        }
+      };
+    }
+    if (lowerMessage.includes('doctor schedules')) {
+      return {
+        type: 'DoctorsListGrid',
+        data: {
+          doctors: [
+            { name: 'Dr. Smith', specialization: 'Cardiology', availability: '9 AM - 5 PM', status: 'Available' },
+            { name: 'Dr. Johnson', specialization: 'Orthopedics', availability: '10 AM - 6 PM', status: 'Available' }
+          ]
+        }
+      };
+    }
+  }
+
+  // Patient role components
+  if (role === 'patient') {
+    if (lowerMessage.includes('schedule an appointment')) {
+      return {
+        type: 'AppointmentSchedule',
+        data: {
+          doctorName: 'Dr. Smith',
+          specialization: 'Cardiology',
+          availability: '9 AM - 5 PM'
+        }
+      };
+    }
+    if (lowerMessage.includes('medical records')) {
+      return {
+        type: 'PatientRecords',
+        data: {
+          patientId: 'P12345',
+          name: 'John Doe',
+          medicalHistory: 'Hypertension, Diabetes Type 2'
+        }
+      };
+    }
+    if (lowerMessage.includes('upcoming appointments')) {
+      return {
+        type: 'PatientInfoForm',
+        data: {
+          name: 'John Doe',
+          dob: new Date('1990-01-01'),
+          medicalHistory: 'Hypertension, Diabetes Type 2'
+        }
+      };
+    }
+  }
+
   return null;
 }; 

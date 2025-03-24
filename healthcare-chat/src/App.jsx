@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { DropDownList } from '@progress/kendo-react-dropdowns';
 import { Card, CardBody, CardTitle } from '@progress/kendo-react-layout';
-import { Button } from '@progress/kendo-react-buttons';
+import { Button, Toolbar, ToolbarSeparator, ButtonGroup } from '@progress/kendo-react-buttons';
 import { TextBox } from '@progress/kendo-react-inputs';
 import { DatePicker } from '@progress/kendo-react-dateinputs';
 import { Grid, GridColumn } from '@progress/kendo-react-grid';
@@ -898,6 +898,125 @@ const QuickPrompts = ({ onSelectPrompt, selectedRole }) => {
   );
 };
 
+const PrescriptionForm = () => {
+  const [prescription, setPrescription] = useState("");
+  const [showToolbar, setShowToolbar] = useState(true);
+
+  const onFormat = (format) => {
+    const textarea = document.getElementById('prescription-text');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = prescription.substring(start, end);
+    
+    let formattedText = prescription;
+    switch(format) {
+      case 'bold':
+        formattedText = prescription.substring(0, start) + 
+          `**${selectedText}**` + 
+          prescription.substring(end);
+        break;
+      case 'italic':
+        formattedText = prescription.substring(0, start) + 
+          `*${selectedText}*` + 
+          prescription.substring(end);
+        break;
+      case 'underline':
+        formattedText = prescription.substring(0, start) + 
+          `__${selectedText}__` + 
+          prescription.substring(end);
+        break;
+      case 'bullet':
+        formattedText = prescription.substring(0, start) + 
+          `\n• ${selectedText}` + 
+          prescription.substring(end);
+        break;
+      case 'number':
+        formattedText = prescription.substring(0, start) + 
+          `\n1. ${selectedText}` + 
+          prescription.substring(end);
+        break;
+      default:
+        return;
+    }
+    setPrescription(formattedText);
+  };
+
+  const handleSave = () => {
+    // Here you would typically save the prescription
+    setShowToolbar(false);
+  };
+
+  return (
+    <div className="chat-message bot">
+      <div className="message-content prompt">
+        <div className="p-4 bg-gray-100">
+          <h2 className="text-xl font-bold mb-4">Write Prescription</h2>
+          {showToolbar && (
+            <Toolbar className="mb-4">
+              <ButtonGroup>
+                <Button
+                  className="k-toolbar-button"
+                  title="Bold"
+                  onClick={() => onFormat("bold")}
+                >
+                  <span className="k-icon k-i-bold"></span>
+                </Button>
+                <Button
+                  className="k-toolbar-button"
+                  title="Italic"
+                  onClick={() => onFormat("italic")}
+                >
+                  <span className="k-icon k-i-italic"></span>
+                </Button>
+                <Button
+                  className="k-toolbar-button"
+                  title="Underline"
+                  onClick={() => onFormat("underline")}
+                >
+                  <span className="k-icon k-i-underline"></span>
+                </Button>
+              </ButtonGroup>
+              <ToolbarSeparator />
+              <ButtonGroup>
+                <Button
+                  className="k-toolbar-button"
+                  title="Bullet List"
+                  onClick={() => onFormat("bullet")}
+                >
+                  <span className="k-icon k-i-list-unordered"></span>
+                </Button>
+                <Button
+                  className="k-toolbar-button"
+                  title="Numbered List"
+                  onClick={() => onFormat("number")}
+                >
+                  <span className="k-icon k-i-list-ordered"></span>
+                </Button>
+              </ButtonGroup>
+            </Toolbar>
+          )}
+          <div className="prescription-container">
+            <textarea
+              id="prescription-text"
+              className="prescription-textarea"
+              value={prescription}
+              onChange={(e) => setPrescription(e.target.value)}
+              placeholder="Write prescription here..."
+            />
+            {showToolbar && (
+              <div className="mt-4 flex justify-end">
+                <Button themeColor="primary" onClick={handleSave}>
+                  Save Prescription
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function App() {
   const [selectedRole, setSelectedRole] = useState(roles[0]);
   const [messages, setMessages] = useState([
@@ -951,6 +1070,8 @@ function App() {
         return <DischargeProgressGrid data={componentData.data} />;
       case 'ReceptionistAppointmentsGrid':
         return <ReceptionistAppointmentsGrid data={componentData.data} />;
+      case 'Prescription':
+        return <PrescriptionForm />;
       default:
         return null;
     }

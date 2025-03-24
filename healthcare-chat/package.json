@@ -6,27 +6,36 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@langchain/openai": "^0.4.7",
-    "@progress/kendo-react-all": "^10.0.0",
-    "@progress/kendo-theme-default": "^10.4.0",
-    "langchain": "^0.3.19",
-    "openai": "^4.89.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@progress/kendo-react-buttons": "^7.0.0",
+    "@progress/kendo-react-dateinputs": "^7.0.0",
+    "@progress/kendo-react-dropdowns": "^7.0.0",
+    "@progress/kendo-react-inputs": "^7.0.0",
+    "@progress/kendo-react-intl": "^7.0.0",
+    "@progress/kendo-react-layouts": "^7.0.0",
+    "@progress/kendo-react-popup": "^7.0.0",
+    "@progress/kendo-react-progressbars": "^7.0.0",
+    "@progress/kendo-theme-default": "^7.0.0",
+    "@progress/kendo-theme-material": "^7.0.0",
+    "@progress/kendo-theme-bootstrap": "^7.0.0",
+    "@progress/kendo-react-dateinputs": "^7.0.0",
+    "@progress/kendo-react-grid": "^7.0.0",
+    "@progress/kendo-react-notification": "^7.0.0",
+    "@progress/kendo-react-dialogs": "^7.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.21.0",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.21.0",
-    "eslint-plugin-react-hooks": "^5.1.0",
-    "eslint-plugin-react-refresh": "^0.4.19",
-    "globals": "^15.15.0",
-    "vite": "^6.2.0"
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "vite": "^5.0.8"
   }
 }

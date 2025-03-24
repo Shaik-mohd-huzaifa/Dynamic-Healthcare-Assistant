@@ -677,12 +677,6 @@ body {
   border-left: 4px solid #dc3545;
 }
 
-/* Value Display */
-.k-card strong {
-  color: #333;
-  font-weight: 600;
-}
-
 /* Responsive Card Layout */
 @media (max-width: 768px) {
   .flex-wrap {
@@ -929,4 +923,60 @@ body {
 
 .prompt-button:active {
   transform: translateY(0);
+}
+
+.prescription-container {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.prescription-textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.prescription-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.k-toolbar {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+.k-toolbar-button {
+  padding: 6px 12px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #4b5563;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.k-toolbar-button:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.k-toolbar-button .k-icon {
+  font-size: 16px;
+}
+
+.k-toolbar-separator {
+  margin: 0 8px;
+  border-left: 1px solid #e2e8f0;
+  height: 24px;
 }
